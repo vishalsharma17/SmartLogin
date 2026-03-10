@@ -16,29 +16,25 @@ public class LoginServlet extends HttpServlet {
 			HttpServletResponse response)
 			throws ServletException, IOException {
 
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+		String email=request.getParameter("email");
+		String password=request.getParameter("password");
 
-			User user = new User();
-			user.setUsername(username);
-			user.setPassword(password);
+		UserDao dao=new UserDao();
 
-			UserDao dao = new UserDao();
+		User user=dao.loginUser(email,password);
 
-			boolean status = dao.validateUser(user);
+		if(user!=null){
 
-			if(status){
+		HttpSession session=request.getSession();
+		session.setAttribute("user",user);
 
-			HttpSession session = request.getSession();
-			session.setAttribute("user", username);
+		response.sendRedirect("loginsuccess.jsp");
 
-			response.sendRedirect("dashboard.jsp");
+		}else{
 
-			}
-			else{
+		response.sendRedirect("error.jsp");
 
-			response.sendRedirect("error.jsp");
+		}
 
-			}
 }
 }

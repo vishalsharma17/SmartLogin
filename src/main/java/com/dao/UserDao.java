@@ -8,33 +8,39 @@ import com.db.DBConnection;
 import com.model.User;
 
 public class UserDao {
-	public boolean validateUser(User user) {
+	public User loginUser(String email,String password){
 
-        boolean status = false;
+		User user=null;
 
-        try {
+		try{
 
-            Connection con = DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 
-            PreparedStatement ps = con.prepareStatement(
-            "select * from users where username=? and password=?");
+		PreparedStatement ps=con.prepareStatement(
+		"select * from users where email=? and password=?");
 
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+		ps.setString(1,email);
+		ps.setString(2,password);
 
-            ResultSet rs = ps.executeQuery();
+		ResultSet rs=ps.executeQuery();
 
-            if(rs.next()) {
-                status = true;
-            }
+		if(rs.next()){
 
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+		user=new User();
 
-        return status;
-    }
+		user.setName(rs.getString("name"));
+		user.setEmail(rs.getString("email"));
+		user.setMobile(rs.getString("mobile"));
+		user.setAddress(rs.getString("address"));
+
+		}
+
+		}catch(Exception e){
+		e.printStackTrace();
+		}
+
+		return user;
+		}
 	
 	
 	public boolean registerUser(User user){
@@ -43,16 +49,18 @@ public class UserDao {
 
 		try{
 
-		Connection con = DBConnection.getConnection();
+		Connection con=DBConnection.getConnection();
 
-		PreparedStatement ps = con.prepareStatement(
-		"insert into users(username,email,password) values(?,?,?)");
+		PreparedStatement ps=con.prepareStatement(
+		"insert into users(name,email,mobile,address,password) values(?,?,?,?,?)");
 
-		ps.setString(1,user.getUsername());
+		ps.setString(1,user.getName());
 		ps.setString(2,user.getEmail());
-		ps.setString(3,user.getPassword());
+		ps.setString(3,user.getMobile());
+		ps.setString(4,user.getAddress());
+		ps.setString(5,user.getPassword());
 
-		int row = ps.executeUpdate();
+		int row=ps.executeUpdate();
 
 		if(row>0){
 		status=true;
@@ -63,6 +71,6 @@ public class UserDao {
 		}
 
 		return status;
-
 		}
+
 }
