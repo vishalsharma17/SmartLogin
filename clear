@@ -1,0 +1,11 @@
+[33mcommit 6d760a47bf5b813267e034afa7df6ed40be548a0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Vishal <vishal@gmail.com>
+Date:   Tue Mar 10 22:46:57 2026 +0530
+
+    Updated UI and validation for login and register pages
+
+[33mcommit e961365a7cab3aaedb52ae75c2d721d3e8557c2d[m
+Author: Vishal <vishal@gmail.com>
+Date:   Tue Mar 10 17:04:34 2026 +0530
+
+    Initial Commit - SmartLogin Servlet Project

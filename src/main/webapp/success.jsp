@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success - Account Created</title>
     
-    <!-- Bootstrap 5.3 -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Google Font - Inter (clean & modern) -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -95,7 +95,7 @@
     </div>
 
     <script>
-        // Countdown + smooth progress bar
+        
         let timeLeft = 3;
         const countdownEl = document.getElementById('count');
         const progressBar = document.getElementById('progressBar');
@@ -104,7 +104,7 @@
             timeLeft--;
             countdownEl.textContent = timeLeft;
             
-            // Progress bar fills smoothly
+           
             const progress = ((3 - timeLeft) / 3) * 100;
             progressBar.style.width = progress + '%';
             
@@ -114,7 +114,7 @@
             }
         }, 1000);
 
-        // Start progress immediately
+       
         progressBar.style.width = '0%';
     </script>
 

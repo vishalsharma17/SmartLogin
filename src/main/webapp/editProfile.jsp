@@ -1,16 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="com.model.User" %>
+
+<%
+response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+response.setHeader("Pragma","no-cache");
+response.setDateHeader ("Expires", 0);
+
+if(session.getAttribute("user")==null){
+response.sendRedirect("login.jsp");
+return;
+}
+
+User user = (User) session.getAttribute("user");
+%>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
-<meta charset="ISO-8859-1">
+<title>Edit Profile | MyApp</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Account | MyApp</title>
-
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -37,7 +48,7 @@ content:'';
 position:fixed;
 border-radius:50%;
 filter:blur(80px);
-opacity:0.35;
+opacity:.35;
 z-index:0;
 animation:float 8s ease-in-out infinite;
 }
@@ -60,21 +71,15 @@ animation-delay:4s;
 }
 
 @keyframes float{
-0%,100%{transform:translate(0,0) scale(1);}
-50%{transform:translate(25px,-25px) scale(1.08);}
+0%,100%{transform:translate(0,0);}
+50%{transform:translate(25px,-25px);}
 }
 
-.login-container{
+.container-card{
 position:relative;
 z-index:1;
 width:100%;
 max-width:460px;
-animation:fadeInUp .7s ease-out;
-}
-
-@keyframes fadeInUp{
-from{opacity:0;transform:translateY(35px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 
@@ -82,8 +87,8 @@ to{opacity:1;transform:translateY(0);}
 .icon-section{
 text-align:center;
 margin-bottom:-44px;
-position:relative;
 z-index:2;
+position:relative;
 }
 
 .icon-circle{
@@ -91,15 +96,13 @@ width:90px;
 height:90px;
 border-radius:50%;
 background:linear-gradient(135deg,#7c3aed,#06b6d4);
-display:inline-flex;
+display:flex;
 align-items:center;
 justify-content:center;
 font-size:2rem;
 color:#fff;
 border:4px solid rgba(255,255,255,0.15);
-box-shadow:0 8px 32px rgba(124,58,237,0.4);
 }
-
 
 
 .glass-card{
@@ -128,7 +131,7 @@ background:linear-gradient(135deg,#a78bfa,#67e8f9);
 .card-subtitle{
 text-align:center;
 color:rgba(255,255,255,0.45);
-font-size:0.85rem;
+font-size:.85rem;
 margin-bottom:28px;
 }
 
@@ -136,7 +139,7 @@ margin-bottom:28px;
 
 .form-group{margin-bottom:18px;}
 
-.form-label-custom{
+.form-label{
 font-size:.75rem;
 color:rgba(255,255,255,0.5);
 margin-bottom:6px;
@@ -153,7 +156,7 @@ transform:translateY(-50%);
 color:rgba(255,255,255,0.3);
 }
 
-.input-custom{
+.input-field{
 width:100%;
 padding:14px 16px 14px 46px;
 background:rgba(255,255,255,0.04);
@@ -163,18 +166,18 @@ color:#fff;
 outline:none;
 }
 
-.input-custom::placeholder{
+.input-field::placeholder{
 color:rgba(255,255,255,0.25);
 }
 
-.input-custom:focus{
+.input-field:focus{
 border-color:#7c3aed;
 box-shadow:0 0 0 3px rgba(124,58,237,0.15);
 }
 
 
 
-.btn-register{
+.btn-update{
 width:100%;
 padding:15px;
 border:none;
@@ -187,83 +190,78 @@ transition:.3s;
 margin-top:10px;
 }
 
-.btn-register:hover{
+.btn-update:hover{
 transform:translateY(-2px);
 box-shadow:0 8px 30px rgba(124,58,237,0.5);
 }
 
 
 
-.bottom-links{
+.back-link{
+display:block;
 text-align:center;
-margin-top:20px;
-}
-
-.bottom-links p{
-color:rgba(255,255,255,0.4);
+margin-top:18px;
+color:#a78bfa;
+text-decoration:none;
 font-size:.85rem;
 }
 
-.link-custom{
-color:#a78bfa;
-text-decoration:none;
-font-weight:500;
-}
-
-.link-custom:hover{
-color:#c4b5fd;
-}
+.back-link:hover{color:#c4b5fd;}
 
 </style>
+
 </head>
 
 <body>
 
-<div class="login-container">
+<div class="container-card">
 
 <div class="icon-section">
 <div class="icon-circle">
-<i class="bi bi-person-plus-fill"></i>
+<i class="bi bi-pencil-square"></i>
 </div>
 </div>
 
 <div class="glass-card">
 
-<h1 class="card-title"><span>Create Account</span></h1>
-<p class="card-subtitle">Register to get started</p>
+<h1 class="card-title"><span>Edit Profile</span></h1>
+<p class="card-subtitle">Update your personal information</p>
 
-<form action="RegisterServlet" method="post">
+<form action="UpdateProfileServlet" method="post">
+
+<input type="hidden" name="email" value="<%= user.getEmail() %>">
 
 <div class="form-group">
-<label class="form-label-custom">Full Name</label>
+
+<label class="form-label">Full Name</label>
+
 <div class="input-wrapper">
-<input type="text" name="name" class="input-custom" placeholder="Enter your name" required>
+
+<input type="text"
+name="name"
+class="input-field"
+placeholder="<%= user.getName() %>">
+
 <i class="bi bi-person-fill"></i>
+
 </div>
 </div>
 
 <div class="form-group">
-<label class="form-label-custom">Email</label>
-<div class="input-wrapper">
-<input type="email" name="email" class="input-custom" placeholder="you@example.com" required>
-<i class="bi bi-envelope-fill"></i>
-</div>
-</div>
 
-<div class="form-group">
-<label class="form-label-custom">Mobile</label>
+<label class="form-label">Mobile Number</label>
 
 <div class="input-wrapper">
 
 <input type="text"
 name="mobile"
-class="input-custom"
-placeholder="10 digit mobile number"
+class="input-field"
+placeholder="<%= user.getMobile() %>"
 maxlength="10"
+minlength="10"
 pattern="[0-9]{10}"
 inputmode="numeric"
-oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-required>
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
 <i class="bi bi-phone-fill"></i>
 
@@ -271,35 +269,37 @@ required>
 </div>
 
 <div class="form-group">
-<label class="form-label-custom">Address</label>
+
+<label class="form-label">Address</label>
+
 <div class="input-wrapper">
-<input type="text" name="address" class="input-custom" placeholder="Enter address" required>
+
+<input type="text"
+name="address"
+class="input-field"
+placeholder="<%= user.getAddress() %>">
+
 <i class="bi bi-geo-alt-fill"></i>
+
 </div>
 </div>
 
-<div class="form-group">
-<label class="form-label-custom">Password</label>
-<div class="input-wrapper">
-<input type="password" name="password" class="input-custom" placeholder="Create password" required>
-<i class="bi bi-lock-fill"></i>
-</div>
-</div>
+<button type="submit" class="btn-update">
 
-<button type="submit" class="btn-register">
-<i class="bi bi-person-plus-fill"></i> Register
+<i class="bi bi-check-circle"></i> Update Profile
+
 </button>
 
 </form>
 
-<div class="bottom-links">
-<p>Already have an account?</p>
-<a href="login.jsp" class="link-custom">
-<i class="bi bi-box-arrow-in-right"></i> Login Here
+<a href="dashboard.jsp" class="back-link">
+
+<i class="bi bi-arrow-left"></i> Back to Dashboard
+
 </a>
-</div>
 
 </div>
+
 </div>
 
 </body>
