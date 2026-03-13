@@ -68,4 +68,20 @@
 <url-pattern>/UpdateProfileServlet</url-pattern>
 </servlet-mapping>
 
+  <servlet>
+        <servlet-name>SendOtpServlet</servlet-name>
+        <servlet-class>com.servlet.SendOtpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendOtpServlet</servlet-name>
+        <url-pattern>/SendOtpServlet</url-pattern>
+    </servlet-mapping>
+<servlet>
+    <servlet-name>ValidateOtpServlet</servlet-name>
+    <servlet-class>com.servlet.ValidateOtpServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ValidateOtpServlet</servlet-name>
+    <url-pattern>/ValidateOtpServlet</url-pattern>
+</servlet-mapping>
 </web-app>
