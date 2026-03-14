@@ -6,6 +6,7 @@ import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.dao.UserDao;
 import com.db.DBConnection;
 import com.util.PasswordUtil;
 
@@ -21,29 +22,37 @@ public class ResetPasswordServlet extends HttpServlet {
 		
 		String encryptedPassword = PasswordUtil.hashPassword(password);
 
+		UserDao dao = new UserDao();
+		
 		try {
 
-			Connection con = DBConnection.getConnection();
+			
+			String oldPassword = dao.getOldPasswordByEmail(email);
 
-			PreparedStatement ps = con.prepareStatement("UPDATE users SET password=? WHERE email=?");
+			
+			if (encryptedPassword.equals(oldPassword)) {
 
-			ps.setString(1, encryptedPassword);
-			ps.setString(2, email);
+				response.getWriter().println("New password cannot be same as old password");
 
-			int i = ps.executeUpdate();
-
-			if (i > 0) {
-
-				RequestDispatcher rd = request.getRequestDispatcher("passwordSuccess.jsp");
-
-				rd.forward(request, response);
-
-			} else {
-
-				response.getWriter().println("Error updating password");
+				return;
 
 			}
 
+
+        boolean status = dao.resetPassword(email, encryptedPassword);
+
+        if (status) {
+
+            RequestDispatcher rd =
+                request.getRequestDispatcher("passwordSuccess.jsp");
+
+            rd.forward(request, response);
+
+        } else {
+
+            response.getWriter().println("Error updating password");
+
+        }
 		} catch (Exception e) {
 
 			e.printStackTrace();

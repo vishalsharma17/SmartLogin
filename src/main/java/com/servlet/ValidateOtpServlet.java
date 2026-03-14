@@ -4,12 +4,14 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 public class ValidateOtpServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String userOtp = request.getParameter("otp");
         HttpSession session = request.getSession();
         String sessionOtp = (String) session.getAttribute("otp");
+        
+        
 
         response.setContentType("text/plain");
 

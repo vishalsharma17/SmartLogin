@@ -372,15 +372,24 @@
             <% } %>
 
             <form action="LoginServlet" method="post">
-                <div class="form-group">
-                    <label class="form-label-custom">Email Address</label>
-                    <div class="input-wrapper">
-                        <input type="email" name="email" class="input-custom" placeholder="you@example.com" required autofocus>
-                        <i class="bi bi-envelope-fill"></i>
-                    </div>
-                </div>
+				<div class="form-group">
 
-                <div class="form-group">
+					<label class="form-label-custom">Email Address</label>
+
+					<div class="input-wrapper">
+
+						<input type="email" name="email" class="input-custom"
+							placeholder="you@example.com" required
+							pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+							title="Please enter a valid email address"
+							oninput="this.value = this.value.trim()" autofocus> <i
+							class="bi bi-envelope-fill"></i>
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
                     <label class="form-label-custom">Password</label>
                     <div class="input-wrapper">
                         <input type="password" name="password" id="pwInput" class="input-custom" placeholder="Enter your password" required>

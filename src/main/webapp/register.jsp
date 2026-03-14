@@ -266,7 +266,13 @@ function sendOtp() {
         return;
 
     }
-    fetch("SendOtpServlet?mobile=" + mobile)
+    fetch("SendOtpServlet", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "mobile=" + mobile
+    })
     .then(res => res.text())
     .then(data => {
         if (data.trim() === "OK") {
@@ -294,7 +300,13 @@ function validateOtp() {
 
     }
 
-    fetch("ValidateOtpServlet?otp=" + otp)
+    fetch("ValidateOtpServlet", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "otp=" + otp 
+    })
 
     .then(res => res.text())
 
@@ -354,14 +366,20 @@ function validateOtp() {
 
 				<div class="form-group">
 					<label class="form-label-custom">Email</label>
+
 					<div class="input-wrapper">
+
 						<input type="email" name="email" class="input-custom"
-							placeholder="you@example.com" required> <i
+							placeholder="you@example.com" required
+							pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+							title="Please enter a valid email address"
+							oninput="this.value = this.value.trim()"> <i
 							class="bi bi-envelope-fill"></i>
+
 					</div>
 				</div>
 
-				
+
 				<div class="form-group">
 					<label class="form-label-custom">Mobile</label>
 					<div class="input-wrapper" style="display: flex; gap: 10px;">

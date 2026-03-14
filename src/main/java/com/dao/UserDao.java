@@ -73,4 +73,57 @@ public class UserDao {
 		return status;
 		}
 
+	public boolean resetPassword(String email, String encryptedPassword) {
+
+        boolean status = false;
+
+        try {
+
+            Connection con = DBConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE users SET password=? WHERE email=?");
+
+            ps.setString(1, encryptedPassword);
+            ps.setString(2, email);
+
+            int i = ps.executeUpdate();
+
+            if (i > 0) {
+                status = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+	
+	public String getOldPasswordByEmail(String email) {
+
+        String password = null;
+
+        try {
+
+            Connection con = DBConnection.getConnection();
+
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT password FROM users WHERE email=?");
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                password = rs.getString("password");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return password;
+    }
+	
 }

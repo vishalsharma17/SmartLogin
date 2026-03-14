@@ -84,4 +84,10 @@
     <servlet-name>ValidateOtpServlet</servlet-name>
     <url-pattern>/ValidateOtpServlet</url-pattern>
 </servlet-mapping>
+
+
+
+<listener>
+    <listener-class>com.listener.AppContextListener</listener-class>
+</listener>
 </web-app>

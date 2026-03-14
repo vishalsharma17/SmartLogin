@@ -1,27 +1,29 @@
 package com.db;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
+import com.listener.AppContextListener;
 
 public class DBConnection {
-	public static Connection getConnection() {
+	 public static Connection getConnection() throws Exception {
 
-        Connection con = null;
+	        ServletContext context = AppContextListener.getContext();
 
-        try {
+	        Properties prop = new Properties();
+	        InputStream input = context
+	                .getResourceAsStream("/WEB-INF/config.properties");
+	        prop.load(input);
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
+	        String url      = prop.getProperty("db.url");
+	        String username = prop.getProperty("db.username");
+	        String password = prop.getProperty("db.password");
 
-            con = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/login_db",
-            "root",
-            "root");
-
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return con;
-    }
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        return DriverManager.getConnection(url, username, password);
+	    }
 }
